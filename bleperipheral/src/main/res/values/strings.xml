@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BlePeripheral</string>
     <string name="start_server">Start server</string>
+    <string name="server_is_running">Server is running…</string>
 </resources>

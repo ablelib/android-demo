@@ -80,8 +80,8 @@ class Server private constructor() {
 
             if (characteristic?.uuid == TimeService.TIME_CHARACTERISTIC) {
                 Log.d("Server", "notify")
-                //Send current date as string
-                val receivedFormat = String(characteristic?.value!!)
+                //Check for value received and use it as date format. Use default format if value is null
+                val receivedFormat = if (value == null) DEFAULT_FORMAT else String(value)
                 val timeFormat = SimpleDateFormat(receivedFormat)
                 characteristic?.value = timeFormat.format(Date()).toByteArray()
                 for (connectedDevice in devices) {
@@ -144,5 +144,6 @@ class Server private constructor() {
     companion object {
         val instance: Server by lazy { Server() }
         private val SUCCESS = "success"
+        private val DEFAULT_FORMAT = "EEE, d MMM yyyy HH:mm:ss"
     }
 }

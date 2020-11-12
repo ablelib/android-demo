@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorBlue"
                 android:textSize="20sp"
-                android:text="Disconnect"
+                android:text="@string/disconnect"
                 android:gravity="left"/>
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorBlue"
                 android:textSize="20sp"
-                android:text="Test comm"
+                android:text="@string/test_comm"
                 android:gravity="center_horizontal"/>
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorBlue"
                 android:textSize="20sp"
-                android:text="Discover services"
+                android:text="@string/discover_services"
                 android:gravity="right"/>
 
         </LinearLayout>
@@ -71,7 +71,7 @@
                 android:background="@drawable/green_button"
                 android:padding="12dp"
                 android:textColor="@color/colorWhite"
-                android:text="Write Descriptor" />
+                android:text="@string/write_descriptor" />
 
             <Button
                 android:id="@+id/requestTimeButton"
@@ -81,7 +81,7 @@
                 android:padding="12dp"
                 android:textColor="@color/colorWhite"
                 android:layout_marginTop="16dp"
-                android:text="Request time" />
+                android:text="@string/request_time" />
 
             <TextView
                 android:id="@+id/timeText"

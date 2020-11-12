@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         startServer.setOnClickListener {
             Server.instance.start()
+            startServer.text = getString(R.string.server_is_running)
+            startServer.setOnClickListener(null)
         }
     }
 }
