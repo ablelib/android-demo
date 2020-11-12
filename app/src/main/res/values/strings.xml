@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AbleLibDemo</string>
+    <string name="stop_scanning">Stop scanning</string>
+    <string name="start_scanning">Start scanning</string>
+    <string name="refresh">Refresh</string>
+    <string name="connected">Connected!</string>
+</resources>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack">
+
+    <LinearLayout
+        android:id="@+id/connectedLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorWhite"
+            android:text="@string/connected"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/disconnect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlue"
+                android:textSize="20sp"
+                android:text="Disconnect"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/testComm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlue"
+                android:textSize="20sp"
+                android:text="Test comm"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/discoverServices"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlue"
+                android:textSize="20sp"
+                android:text="Discover services"
+                android:gravity="right"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/testCommLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+            <Button
+                android:id="@+id/writeDescriptorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/green_button"
+                android:padding="12dp"
+                android:textColor="@color/colorWhite"
+                android:text="Write Descriptor" />
+
+            <Button
+                android:id="@+id/requestTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/green_button"
+                android:padding="12dp"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="16dp"
+                android:text="Request time" />
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/colorBlue"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/servicesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/notConnectedLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:text="@string/refresh"
+            android:textColor="@color/colorBlue"
+            android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/refresh"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="12dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
