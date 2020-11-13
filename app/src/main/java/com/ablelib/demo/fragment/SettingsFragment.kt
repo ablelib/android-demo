@@ -25,6 +25,7 @@ class SettingsFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val adapter = SettingsAdapter(context!!, qualities)
+
         listView.adapter = adapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             AbleManager.qualityOfService = qualities[position]

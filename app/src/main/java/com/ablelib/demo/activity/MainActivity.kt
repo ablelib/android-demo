@@ -4,6 +4,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.ablelib.AbleManager
 import com.ablelib.demo.R
 import com.ablelib.demo.adapter.PagesAdapter
 import com.google.android.material.tabs.TabLayout
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val tabIcons = arrayOf(R.drawable.ic_antenna, R.drawable.ic_list, R.drawable.ic_comm,
-            R.drawable.ic_settings
+            R.drawable.ic_service, R.drawable.ic_settings
     )
 
     private val selectedTabColor: Int
@@ -21,8 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AbleManager.importBondedDevices()
         viewPager.adapter = PagesAdapter(supportFragmentManager)
-        viewPager.offscreenPageLimit = 4
+        viewPager.offscreenPageLimit = tabIcons.size
         tabLayout.setupWithViewPager(viewPager)
         for (i in 0..tabLayout.tabCount) {
             tabLayout.getTabAt(i)?.icon = ContextCompat.getDrawable(this, tabIcons[i])
