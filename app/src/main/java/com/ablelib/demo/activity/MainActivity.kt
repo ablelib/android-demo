@@ -2,11 +2,13 @@ package com.ablelib.demo.activity
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.ablelib.AbleManager
 import com.ablelib.demo.R
 import com.ablelib.demo.adapter.PagesAdapter
+import com.ablelib.listeners.PermissionRequestResult
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AbleManager.handlePermissionRequestIfNotGranted(this)
         AbleManager.importBondedDevices()
         viewPager.adapter = PagesAdapter(supportFragmentManager)
         viewPager.offscreenPageLimit = tabIcons.size
@@ -43,6 +46,21 @@ class MainActivity : AppCompatActivity() {
                 tab?.icon?.setColorFilter(selectedTabColor, PorterDuff.Mode.SRC_IN)
             }
 
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        AbleManager.handleRequestPermissionResult(requestCode, permissions, grantResults, object: PermissionRequestResult {
+            override fun onAllPermissionsGranted() {
+                //No need to handle if accepted
+            }
+
+            override fun onPermissionDenied(permissionDenied: Array<String>) {
+                Toast.makeText(this@MainActivity, "Permission is required to use the app", Toast.LENGTH_LONG).show()
+                finish()
+            }
         })
     }
 }
