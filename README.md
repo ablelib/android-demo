@@ -1,3 +1,4 @@
+
 # AbleLib Android Demo
 
 Android demo app for AbleLib - the premium mobile BLE library. Check it out at [https://ablelib.com](https://ablelib.com/).
@@ -15,18 +16,20 @@ Click on "Start server" will start advertising and server will become visible du
 **AbleDemo** app is split in five sections. Each of the section covers different parts of AbleLib functionality. 
 ### Scanning and Pairing
 </br><img src="https://github.com/ablelib/android-demo/blob/develop/screenshots/start_scanning.jpg?raw=true" width="107" height="217"></br>
-The very first section of app is intended for scanning devices around us and pairing with them. If we have all permissions, clicking the "Start scanning" will initiate the scanning process. AbleLib code for this is pretty straightforward.
+The very first section of app is intended for scanning devices around us and pairing with them. Before we get to scanning, we should check if our app has all the permissions to do so. AbleLib provides some utility to make this process easier. To check for permissions we use `AbleManager.handlePermissionRequestIfNotGranted(...)`, providing the `Activity` which will be in charge of results. To check if we were given all results we first override `onRequestPermissionResult`, there we can call AbleLib's `AbleManager.handleRequestPermissionResult` and forward all parameters of overriden method with addition of `PermissionRequestResult` callback. 
 ```
-AbleManager.scan(15_000, object: AbleNearbyScanListener {  
-    override fun onStart() { ... }  
-    override fun onDeviceFound(device: AbleDevice) { ... }  
-    override fun onStop() { ... }  
-    override fun onError(e: Exception) { ... }  
-})
+object: PermissionRequestResult {  
+    override fun onAllPermissionsGranted() { ... }    
+    override fun onPermissionDenied(permissionDenied: Array<String>) { ... }  
+}
 ```
-A single method call is needed to initate scanning. AbleLib also provides callback with all of the cases we want to cover as scanning goes on. For example this demo app uses `onStart()` and `onStop()` to show or hide list and `onDeviceFound` comes handy when it needs to update the list as it provides all details about found device.
+The callback will let us know if we were given all permisions to proceed or not, if not we also get list of permissions that were denied.
 
-As devices get scanned, list will get updated with items.
+Now that we have permissions sorted out we can start the scanning by clicking the "Start scanning". AbleLib code for this is pretty straightforward.
+```
+AbleManager.scan(15_000)
+```
+Using coroutines it takes a single method to start scanning. We can also specify how long do we wish to scan for by providing a parameter to the method. Once the scanning is done, the `scan()` method will provide us with all devices that lib managed to scan, which we then use to populate the list with those devices.
 </br><img src="https://github.com/ablelib/android-demo/blob/develop/screenshots/scanning.jpg?raw=true" width="107" height="217"></br>
 Clicking on one of the items from the list will attempt to pair our device with it. This is again handled with just a single method.
 ```
@@ -73,12 +76,43 @@ When we are done with that we can proceed to "Write Characteristic" button. This
 `val time = deviceComm.writeCharacteristic(timeChar, "h:mm a".toByteArray())`
 We just provide the characteristic we want to write to and value. As I mentioned above in **BlePeripheral** section, we can use date time format as a value to let server format time for us. `writeCharacteristics` will wait for result from peripheral and return it to us, which we then use to show it on screen.
 </br><img src="https://github.com/ablelib/android-demo/blob/develop/screenshots/test_comm_time.jpg?raw=true" width="107" height="217"></br>
+### Background Service
+AbleLib provides functionality to scan for devices throught service, which has benefit of being able to work even when our app is in background. To start service in demo, a single click on "Start Service" is required. The code for this consists for several things. First if we wish to have our service running in background on Android, we need to make notification that will let user know it is running. You can make notification yourself or you can use AbleLib's helper method: 
+```
+AbleService.defaultNotification(  
+  context!!,  
+  getString(R.string.app_name),  
+  getString(R.string.app_is_scanning),  
+  R.drawable.ic_launcher_foreground,  
+  MainActivity::class.java  
+)
+``` 
+It requires title, description, drawable for notification icon and target class which is activity which will get opened when user clicks on notification.
+
+Once we have notification, we can setup our service:
+```
+AbleManager.setUpService(  
+  serviceClass = AbleService::class.java,  
+  notification = defaultNotification,  
+  backgroundScanInApp = true,  
+  backgroundScanOutsideApp = true  
+)
+``` 
+Here we pass the serviceClass which will take care of scanning logic, we can either pass AbleService or any class which inherits it. We also have to pass parameters for `notification`, `backgroundScanInApp` and `backgroundScanOutsideApp` which are self-explanatory.  After we make any changes to our service we have to call `AbleManager.refreshBackgroundServiceState()` to (re)start our service with latest changes.
+
+Lastly to get scan results we will need to use a receiver. First lets create our receiver:
+```
+private val receiver = object: BroadcastReceiver() {  
+    override fun onReceive(context: Context?, intent: Intent?) {  
+        val device = intent?.getParcelableExtra<AbleDevice>(AbleService.DEVICE)
+  }  
+}
+```
+Our receiver is in charge of receiving the scan result. Scan result will be a single `AbleDevice` object and it will be in intent as `Parcelable` extra under the `AbleService.DEVICE` key. Here we get device, add it to our current list of devices and update the UI. Now that we have our receiver, all that is left is to register it: `registerReceiver(receiver, IntentFilter(AbleService.ACTION_DEVICE_FOUND))`. All we have to do here is pass `AbleService.ACTION_DEVICE_FOUND` as parameter to `IntentFilter` and we are good to go.
+
 ### Quality of Service
 Quality of service tab will show you list of all "Scan configs" which AbleLib can use. 
 </br><img src="https://github.com/ablelib/android-demo/blob/develop/screenshots/qos.jpg?raw=true" width="107" height="217"></br>
 
 AbleLib has three different `QualityOfService` objects which can work with by default. Those are `LOW_ENERGY`, `DEFAULT` and `INTENSE`. Each of these differ by scan time, delay bettwen scans and some other scan settings. Clicking on one of the items will update the `QualityOfService` which AbleLib uses. This is done by simply assigning `AbleManager` propery to it: `AbleManager.qualityOfService = LOW_ENERGY`.
 If none of those suit your needs, you can just use `QualityOfService(...)` constructor and make `QualityOfService` object with values that matches your needs.
-
-### Background Service
-TODO
