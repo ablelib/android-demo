@@ -18,6 +18,7 @@ Click on "Start server" will start advertising and server will become visible du
 **AbleDemo** app is split in five sections. Each of the section covers different parts of AbleLib functionality. 
 ### Scanning and Pairing
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/start_scanning.jpg?raw=true)
+
 The very first section of app is intended for scanning devices around us and pairing with them. Before we get to scanning, we should check if our app has all the permissions to do so. AbleLib provides some utility to make this process easier. To check for permissions we use `AbleManager.handlePermissionRequestIfNotGranted(...)`, providing the `Activity` which will be in charge of results. To check if we were given all results we first override `onRequestPermissionResult`, there we can call AbleLib's `AbleManager.handleRequestPermissionResult` and forward all parameters of overriden method with addition of `PermissionRequestResult` callback. 
 ```
 object: PermissionRequestResult {  
@@ -93,6 +94,7 @@ We just provide the characteristic we want to write to and value. As I mentioned
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/test_comm_time.jpg?raw=true)
 ### Background Service
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/start_service.jpg?raw=true)
+
 AbleLib provides functionality to scan for devices throught service, which has benefit of being able to work even when our app is in background. To start service in demo, a single click on "Start Service" is required. The code for this consists for several things. First if we wish to have our service running in background on Android, we need to make notification that will let user know it is running. You can make notification yourself or you can use AbleLib's helper method: 
 ```
 AbleService.defaultNotification(  
