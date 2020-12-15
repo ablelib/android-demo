@@ -28,7 +28,7 @@ class SettingsFragment: Fragment() {
 
         listView.adapter = adapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            AbleManager.qualityOfService = qualities[position]
+            AbleManager.shared.qualityOfService = qualities[position]
             adapter.notifyDataSetChanged()
         }
     }

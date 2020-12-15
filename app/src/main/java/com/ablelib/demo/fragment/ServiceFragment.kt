@@ -55,7 +55,7 @@ class ServiceFragment : DeviceListFragment() {
     }
 
     private fun startService() {
-        AbleManager.setUpService(
+        AbleManager.shared.setUpService(
             serviceClass = AbleService::class.java,
             notification = AbleService.defaultNotification(
                 context!!,
@@ -68,7 +68,7 @@ class ServiceFragment : DeviceListFragment() {
             backgroundScanOutsideApp = true
         )
 
-        AbleManager.refreshBackgroundServiceState()
+        AbleManager.shared.refreshBackgroundServiceState()
         scanningLayout.visibility = View.VISIBLE
         startService.visibility = View.GONE
     }

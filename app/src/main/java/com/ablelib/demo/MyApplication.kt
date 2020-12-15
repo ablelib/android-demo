@@ -6,6 +6,6 @@ import com.ablelib.AbleManager
 class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
-        AbleManager.initialize(this)
+        AbleManager.shared.initialize(this)
     }
 }

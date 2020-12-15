@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AbleManager.handlePermissionRequestIfNotGranted(this)
-        AbleManager.importBondedDevices()
+        AbleManager.shared.handlePermissionRequestIfNotGranted(this)
+        AbleManager.shared.importBondedDevices()
         viewPager.adapter = PagesAdapter(supportFragmentManager)
         viewPager.offscreenPageLimit = tabIcons.size
         tabLayout.setupWithViewPager(viewPager)
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AbleManager.handleRequestPermissionResult(requestCode, permissions, grantResults, object: PermissionRequestResult {
+        AbleManager.shared.handleRequestPermissionResult(requestCode, permissions, grantResults, object: PermissionRequestResult {
             override fun onAllPermissionsGranted() {
                 //No need to handle if accepted
             }

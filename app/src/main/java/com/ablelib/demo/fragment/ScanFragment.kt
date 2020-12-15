@@ -36,7 +36,7 @@ class ScanFragment : DeviceListFragment() {
         }
 
         stopScan.setOnClickListener {
-            AbleManager.stopScan()
+            AbleManager.shared.stopScan()
         }
     }
 
@@ -51,7 +51,7 @@ class ScanFragment : DeviceListFragment() {
         scope.launch {
             startScan.visibility = View.GONE
             scanningLayout.visibility = View.VISIBLE
-            updateList(AbleManager.scan(15_000))
+            updateList(AbleManager.shared.scan(15_000))
             scanningLayout.visibility = View.GONE
         }
     }

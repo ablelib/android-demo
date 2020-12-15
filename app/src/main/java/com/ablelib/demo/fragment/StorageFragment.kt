@@ -36,7 +36,7 @@ class StorageFragment : Fragment() {
         adapter.deviceRemovedListener = object: StorageAdapter.OnDeviceRemoved {
             override fun onDeviceRemoved(device: AbleDevice) {
                 devices.remove(device)
-                AbleDeviceStorage.remove(device)
+                AbleDeviceStorage.default.remove(device)
                 adapter.notifyDataSetChanged()
             }
 
@@ -46,8 +46,8 @@ class StorageFragment : Fragment() {
 
     private fun refresh() {
         devices.clear()
-        AbleDeviceStorage.importDevices(listOf())
-        devices.addAll(AbleDeviceStorage.devices)
+        AbleDeviceStorage.default.importDevices(listOf())
+        devices.addAll(AbleDeviceStorage.default.devices)
         adapter.notifyDataSetChanged()
     }
 }

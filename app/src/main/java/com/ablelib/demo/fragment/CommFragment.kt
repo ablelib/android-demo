@@ -153,7 +153,7 @@ class CommFragment: Fragment() {
 
     private fun refresh() {
         devices.clear()
-        devices.addAll(AbleDeviceStorage.devices)
+        devices.addAll(AbleDeviceStorage.default.devices)
         adapter.notifyDataSetChanged()
     }
 }

@@ -18,7 +18,7 @@ class SettingsAdapter(private val context: Context, val qualityOfServices: List<
         val quality = qualityOfServices[position]
         view.qualityOfServiceText.text = "QualityOfService(delayBetwenScans:${quality.delayBetweenScans}, scanTimeout:${quality.scanTimeout}, scanOptions: nil)"
 
-        val selectedQuality = AbleManager.qualityOfService
+        val selectedQuality = AbleManager.shared.qualityOfService
         view.checkmark.visibility = if (selectedQuality == quality) View.VISIBLE else View.GONE
         return view
     }
