@@ -8,11 +8,9 @@ This project consists of two apps:
 * BlePeripheral - a helper app to make testing easier.
 
 ## BlePeripheral
-**BlePeripheral** is basic app that turns your phone into simple Ble server. In case you already have Ble device which you plan to use in conjuction with **AbleLib**, you can go ahead and skip this part.
+**BlePeripheral** is basic app that allows for initialization of a local GATT server (i.e, peripheral mode) and an L2CAP server socket. The server hosts a service and a characteristic via which the PSM of the L2CAP channel can be obtained by client sockets.
 
-![](https://github.com/ablelib/android-demo/blob/develop/screenshots/server_start.jpg?raw=true)
-
-Click on "Start server" to start advertising and server will become visible during BLE device scans. Once the server is up and running, it is possible to write characteristics to it. Writing characteristics to it will make server trigger characteristic change and as value it will pass its current time. It is also possible to pass value when writing characteristics with date/time format you want to receive from server. 
+Click on "Start server" to start advertising and server will become visible during BLE device scans. Once the server is up and running, it is possible to read its characteristic to obtain the PSM of its hosted L2CAP channel. Client sockets can then connect to the server socket, after which you can send text in either direction, effectively forming an instant chat service over BLE.
 
 ## AbleDemo
 **AbleDemo** app is split in five sections. Each of the section covers different parts of AbleLib functionality. 
@@ -53,7 +51,7 @@ Clicking the "Refresh" button will update the list with newly paired devices if 
 Clicking the "Delete" button next to specific device will remove that device from our phone completely. Again, just a single call to `AbleDeviceStorage.remove(...)`does the job. We can pass either device address or `AbleDevice` object.
 
 ### Communication
-Communication tab, like storage tab, shows all previously paired devices. It also lets you to connect to those devices and discover their services and characteristics. There are also some tools which you can use to test **BlePeripheral**.
+Communication tab, like storage tab, shows all previously paired devices. It also lets you to connect to those devices and discover their services and characteristics.
 
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/comm_list.jpg?raw=true)
 
@@ -72,26 +70,6 @@ UI will now show some of the actions we can do. Let's start with "Discover Servi
 
 As `discoverServices()` returns list of `BluetoothGattService`, we can then also easily get the list of characteristics for each of those services. Click on one of these items from the list will update the list with characteristics of that service.
 
-If you are testing this app together with the **BlePeripheral** app you can do that using "Test comm" button at the top when you connect. This will give you access to two buttons which will do communication to the server.
-
-![](https://github.com/ablelib/android-demo/blob/develop/screenshots/test_comm_connected.jpg?raw=true")
-
-To let server notify us about characteristic changes we first need to write to descriptor with `BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE` as value. AbleLib makes this part easier too. First we need to get the descriptor we wish to write to:
-```kotlin
-services = deviceComm.discoverServices()
-val timeService = services.find { service -> service.uuid == TIME_SERVICE }  
-val timeChar = timeService.getCharacteristic(TIME_CHARACTERISTIC)
-val configDescriptor = timeChar.getDescriptor(CONFIG_DESCRIPTOR)
-```
-After that, on `Comm` object we can call the following:
-`deviceComm.writeDescriptor(timeChar, configDescriptor, false)`
-Last parameter is for 'isRACP', if we set it to false here, AbleLib will automatically set the `ENABLE_NOTIFICATION_VALUE` for us.
-
-When we are done with that we can proceed to "Write Characteristic" button. This is pretty much the same process. First we obtain the service we want, and then we get characteristic from that service we wish to write to. Once we have that we can write to characteristic:
-`val time = deviceComm.writeCharacteristic(timeChar, "h:mm a".toByteArray())`
-We just provide the characteristic we want to write to and value. As I mentioned above in **BlePeripheral** section, we can use date time format as a value to let server format time for us. `writeCharacteristics` will wait for result from peripheral and return it to us, which we then use to show it on screen.
-
-![](https://github.com/ablelib/android-demo/blob/develop/screenshots/test_comm_time.jpg?raw=true)
 ### Background Service
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/start_service.jpg?raw=true)
 
@@ -129,6 +107,9 @@ private val receiver = object: BroadcastReceiver() {
 Our receiver is in charge of receiving the scan result. Scan result will be a single `AbleDevice` object and it will be in intent as `Parcelable` extra under the `AbleService.DEVICE` key. Here we get device, add it to our current list of devices and update the UI. Now that we have our receiver, all that is left is to register it: `registerReceiver(receiver, IntentFilter(AbleService.ACTION_DEVICE_FOUND))`. All we have to do here is pass `AbleService.ACTION_DEVICE_FOUND` as parameter to `IntentFilter` and we are good to go.
 
 ![](https://github.com/ablelib/android-demo/blob/develop/screenshots/service_results.jpg?raw=true)
+
+### Sockets
+ This tab allows you to test **client socket communication**. It allows for scanning for a peripheral that supports L2CAP server socket, and connecting to it in client mode. After a socket connection is obtained, you can send text in either direction, effectively forming an instant chat service over BLE.
 
 ### Quality of Service
 Quality of service tab will show you list of all "Scan configs" which AbleLib can use. 
