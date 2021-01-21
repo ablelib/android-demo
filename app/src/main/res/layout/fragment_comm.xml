@@ -35,16 +35,6 @@
                 android:gravity="left"/>
 
             <TextView
-                android:id="@+id/testComm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/colorBlue"
-                android:textSize="20sp"
-                android:text="@string/test_comm"
-                android:gravity="center_horizontal"/>
-
-            <TextView
                 android:id="@+id/discoverServices"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,42 +44,6 @@
                 android:text="@string/discover_services"
                 android:gravity="right"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/testCommLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:visibility="gone"
-            android:layout_marginTop="16dp">
-            <Button
-                android:id="@+id/writeDescriptorButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/green_button"
-                android:padding="12dp"
-                android:textColor="@color/colorWhite"
-                android:text="@string/write_descriptor" />
-
-            <Button
-                android:id="@+id/requestTimeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/green_button"
-                android:padding="12dp"
-                android:textColor="@color/colorWhite"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_time" />
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/colorBlue"/>
         </LinearLayout>
 
         <ListView

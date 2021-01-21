@@ -2,19 +2,18 @@ package com.ablelib.demo.fragment
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ablelib.AbleManager
 import com.ablelib.demo.R
-import com.ablelib.listeners.AbleNearbyScanListener
+import com.ablelib.manager.AbleManager
+import com.ablelib.manager.pair
 import com.ablelib.models.AbleDevice
-import com.ablelib.pair
-import com.ablelib.demo.adapter.ScannedDevicesAdapter
 import kotlinx.android.synthetic.main.fragment_scan.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ScanFragment : DeviceListFragment() {
     private lateinit var progressDialog: ProgressDialog

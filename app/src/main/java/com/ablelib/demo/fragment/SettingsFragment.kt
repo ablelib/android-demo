@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import com.ablelib.AbleManager
 import com.ablelib.demo.R
 import com.ablelib.util.QualityOfService
 import com.ablelib.demo.adapter.SettingsAdapter
+import com.ablelib.manager.AbleManager
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment: Fragment() {

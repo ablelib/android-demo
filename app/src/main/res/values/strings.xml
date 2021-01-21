@@ -14,4 +14,7 @@
     <string name="write_descriptor">Write descriptor</string>
     <string name="request_time">Request time</string>
     <string name="quality_of_service">Quality of Service</string>
+    <string name="send">Send</string>
+    <string name="received_from_server_socket">Received from server socket</string>
+    <string name="client_log">Client log</string>
 </resources>

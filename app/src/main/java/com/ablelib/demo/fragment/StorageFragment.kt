@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ablelib.AbleManager
 import com.ablelib.demo.R
 import com.ablelib.models.AbleDevice
 import com.ablelib.storage.AbleDeviceStorage

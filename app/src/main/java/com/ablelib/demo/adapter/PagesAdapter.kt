@@ -7,8 +7,14 @@ import com.ablelib.demo.fragment.*
 
 class PagesAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragmentManager) {
 
-    private val fragments = arrayOf(ScanFragment(), StorageFragment(), CommFragment(),
-        ServiceFragment(), SettingsFragment())
+    private val fragments = arrayOf(
+        ScanFragment(),
+        StorageFragment(),
+        CommFragment(),
+        ServiceFragment(),
+        SocketFragment(),
+        SettingsFragment()
+    )
 
     override fun getItem(position: Int): Fragment {
         return fragments[position]

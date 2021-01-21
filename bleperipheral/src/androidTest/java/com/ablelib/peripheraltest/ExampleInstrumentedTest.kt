@@ -1,4 +1,4 @@
-package com.ablelib.bleperipheral
+package com.ablelib.peripheraltest
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

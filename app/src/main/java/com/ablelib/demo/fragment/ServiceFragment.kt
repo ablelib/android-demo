@@ -9,11 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ablelib.AbleManager
 import com.ablelib.demo.R
 import com.ablelib.demo.activity.MainActivity
+import com.ablelib.manager.AbleManager
 import com.ablelib.models.AbleDevice
-import com.ablelib.services.AbleService
+import com.ablelib.services.AbleTask
 import kotlinx.android.synthetic.main.fragment_service.*
 
 class ServiceFragment : DeviceListFragment() {
@@ -22,7 +22,7 @@ class ServiceFragment : DeviceListFragment() {
     private val receiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.d("Receiver", "onReceive")
-            intent?.getParcelableExtra<AbleDevice>(AbleService.DEVICE)?.let {
+            intent?.getParcelableExtra<AbleDevice>(AbleTask.DEVICE)?.let {
                 devices.add(it)
                 updateList(devices)
             }
@@ -45,7 +45,7 @@ class ServiceFragment : DeviceListFragment() {
     }
 
     override fun onResume() {
-        activity?.registerReceiver(receiver, IntentFilter(AbleService.ACTION_DEVICE_FOUND))
+        activity?.registerReceiver(receiver, IntentFilter(AbleTask.ACTION_DEVICE_FOUND))
         super.onResume()
     }
 
@@ -56,8 +56,8 @@ class ServiceFragment : DeviceListFragment() {
 
     private fun startService() {
         AbleManager.shared.setUpService(
-            serviceClass = AbleService::class.java,
-            notification = AbleService.defaultNotification(
+            serviceClass = AbleTask::class.java,
+            notification = AbleTask.defaultNotification(
                 context!!,
                 getString(R.string.app_name),
                 getString(R.string.app_is_scanning),

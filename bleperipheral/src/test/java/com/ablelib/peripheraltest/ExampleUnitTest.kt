@@ -1,4 +1,4 @@
-package com.ablelib.bleperipheral
+package com.ablelib.peripheraltest
 
 import org.junit.Test
 
